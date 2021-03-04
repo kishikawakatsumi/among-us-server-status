@@ -26,9 +26,9 @@
 <body>
   <div class="container">
     <div class="m-3">
-      <h1><span class="font-weight-bolder">Among Us</span> Server Status</h1>
+      <h1 class="h2"><span class="font-weight-bolder">Among Us</span> Server Status</h1>
     </div>
-    <table class="table">
+    <table id="table" class="table">
       <thead>
         <tr class="h5">
           <th scope="col">Name</th>
@@ -49,7 +49,7 @@
         </tr>
         #for(s in server):
         <tr>
-          <th scope="row">#(s.name)</th>
+          <td scope="row">#(s.name)</td>
           <td scope="row" class="text-monospace">#(s.ipAddress)</td>
           <td scope="row" class="text-right text-monospace">#(s.numberOfConnections)</td>
         </tr>
@@ -71,6 +71,9 @@
         minute: "2-digit",
         hour12: false,
       })
+    if (window.matchMedia("screen and (max-width: 767px)").matches) {
+      document.getElementById("table").classList.add("table-sm")
+    }
   </script>
 </body>
 
