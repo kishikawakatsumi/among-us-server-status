@@ -141,7 +141,7 @@ func routes(_ app: Application) throws {
             ```
             \(
                 server
-                    .map { "\($0["ipAddress"]!.padding(toLength: 15, withPad: " ", startingAt: 0)) | \($0["numberOfConnections"]!) players" }
+                    .map { "\($0["ipAddress"]!.padding(toLength: 15, withPad: " ", startingAt: 0)) \($0["numberOfConnections"]!.paddingToLeft(upTo: 5, using: " ")) players" }
                     .joined(separator: "\n")
             )
             ```
@@ -205,5 +205,11 @@ private extension Data {
 
     var hex: String {
         return reduce("") { $0 + String(format: "%02x", $1) }
+    }
+}
+
+private extension RangeReplaceableCollection where Self: StringProtocol {
+    func paddingToLeft(upTo length: Int, using element: Element = " ") -> SubSequence {
+        return repeatElement(element, count: Swift.max(0, length-count)) + suffix(Swift.max(count, count-length))
     }
 }
