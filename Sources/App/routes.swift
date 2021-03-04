@@ -1,8 +1,9 @@
 import Vapor
 import AmongUsProtocol
 
-private var lastUpdate: TimeInterval = 0
+private var lastUpdate: TimeInterval = Date.distantPast.timeIntervalSince1970
 private var cachedResponse: IndexResponse?
+private let cacheExpiryDuration: TimeInterval = 300
 
 func routes(_ app: Application) throws {
     app.get { (req) -> EventLoopFuture<View> in
@@ -10,7 +11,7 @@ func routes(_ app: Application) throws {
     }
 
     func index(_ req: Request) throws -> EventLoopFuture<View> {
-        if var cachedResponse = cachedResponse, Date().timeIntervalSince1970 - lastUpdate < 60 {
+        if var cachedResponse = cachedResponse, Date().timeIntervalSince1970 - lastUpdate < cacheExpiryDuration {
             cachedResponse.lastUpdate = lastUpdate
             return req.view.render("index", cachedResponse)
         }
@@ -47,7 +48,7 @@ func routes(_ app: Application) throws {
     }
 
     app.get("discord-embed") { (req) -> EventLoopFuture<DiscordEmbedResponse> in
-        if var cachedResponse = cachedResponse, Date().timeIntervalSince1970 - lastUpdate < 60 {
+        if var cachedResponse = cachedResponse, Date().timeIntervalSince1970 - lastUpdate < cacheExpiryDuration {
             cachedResponse.lastUpdate = lastUpdate
             return req.eventLoop.makeSucceededFuture(
                 buildDiscordEmbed(response: cachedResponse)
