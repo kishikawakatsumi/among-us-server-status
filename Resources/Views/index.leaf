@@ -49,7 +49,7 @@
         </tr>
         #for(s in server):
         <tr>
-          <td scope="row">#(s.name)</td>
+          <th scope="row">#(s.name)</th>
           <td scope="row" class="text-monospace">#(s.ipAddress)</td>
           <td scope="row" class="text-right text-monospace">#(s.numberOfConnections)</td>
         </tr>
