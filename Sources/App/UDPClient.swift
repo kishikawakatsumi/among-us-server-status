@@ -7,7 +7,6 @@ public class UDPClient {
     let port: Int
     let bindHost: String
     let bindPort: Int
-    private let isSharedPool: Bool
     let socketAddress: SocketAddress
 
     let errorCallback: (Error?) -> Void = { _ in }
@@ -17,7 +16,6 @@ public class UDPClient {
         self.port = port
 
         group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
-        isSharedPool = false
 
         socketAddress = try SocketAddress.makeAddressResolvingHost(self.host, port: self.port)
         self.bindHost = bindHost
@@ -37,9 +35,7 @@ public class UDPClient {
     }
 
     deinit {
-        if !self.isSharedPool {
-            group.shutdownGracefully(self.errorCallback)
-        }
+        group.shutdownGracefully(errorCallback)
     }
 }
 
