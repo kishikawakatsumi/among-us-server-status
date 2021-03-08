@@ -92,7 +92,7 @@ func routes(_ app: Application) throws {
         for (address, port) in [("104.237.135.186", 22023), ("139.162.111.196", 22023), ("172.105.251.170", 22023)] {
             let client = try UDPClient(address, port: port, bindHost: "0.0.0.0", bindPort: 0)
             clients.append(client)
-            let future = client.execute(Data(hex: "080001004ae202030a496e6e657273726f7468")!)
+            let future = client.execute(Data(hex: "080001005a0903030a496e6e657273726f7468")!)
             futures.append(future)
         }
 
